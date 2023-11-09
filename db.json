@@ -1,8 +1,24 @@
 {
   "tasks": [
     {
-      "text": "Party More ",
+      "text": "Finish Learning JS",
       "id": 1
+    },
+    {
+      "text": "HomeWork ",
+      "id": 2
+    },
+    {
+      "text": "Clean my github repos",
+      "id": 3
+    },
+    {
+      "text": "Fix the add button, make it add when you click enter",
+      "id": 4
+    },
+    {
+      "text": "Keep Trying to solve the hackerearth problems",
+      "id": 5
     }
   ]
 }
