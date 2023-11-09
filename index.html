@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +15,21 @@
         <h1 class="text-2xl font-bold mb-4">To-Do List</h1>
         <div class="flex mb-4">
             <input type="text" id="task" class="p-2 w-full rounded-lg mr-2" placeholder="Add a task">
-            <button id="addTask" class="bg-blue-500 text-white p-2 rounded-lg">Add</button>
+            <button id="addTask" class="bg-blue-500 text-white p-2 rounded-lg" onclick="addTask()">Add</button>
         </div>
         <ul id="taskList" class="bg-white p-4 rounded-lg">
             <!-- Tasks will be dynamically added here -->
         </ul>
         
+    </div>
+    <div id="updateModal" class="hidden fixed inset-5 bg-black bg-opacity-20 justify-center items-center">
+        <div class="bg-white p-8 rounded-lg">
+            <h2 class="text-xl font-bold mb-4">Update Task</h2>
+            <input type="hidden" id="updateTaskID">
+            <input type="text" id="updatedTaskText" class="p-2 w-full rounded-lg mb-4" placeholder="Updated task text">
+            <button id="updateTask" class="bg-blue-500 text-white p-2 rounded-lg" onclick="updateTask()">Update</button>
+            <button onclick="closeUpdateModal()" class="ml-2 text-gray-500">Cancel</button>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>

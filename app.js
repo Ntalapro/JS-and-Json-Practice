@@ -1,25 +1,38 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () { 
+
+    // Reference html elements to be used by the javascript,
+    // Get them by ID
+    // Into variables
     const taskInput = document.getElementById("task");
     const addTaskButton = document.getElementById("addTask");
     const taskList = document.getElementById("taskList");
-
-    const taskID = document.getElementById("taskID");
-    const taskText = document.getElementById("taskText");
     const updateTaskButton = document.getElementById("updateTask");
+    const updateModal = document.getElementById("updateModal");
 
+    let tasks = []; // Local copy of tasks
+
+    // FIRST THING IS FIRST !
+    // The endpoint "http://localhost:3001/tasks" stores our tasks
     // Load tasks from the JSON Server
     function loadTasks() {
         fetch("http://localhost:3001/tasks")
             .then(response => response.json())
             .then(data => {
-                updateTaskList(data);
+                /*
+                    Here we take data as it returns in json format,
+                    Then update our tasks array with the data,
+                    We then immediately update the tasks html list,
+                    Filling it with the tasks array,
+                    By executing the update function.
+                */
+                tasks = data; 
+                updateTaskList(tasks);
             })
             .catch(error => {
                 console.error("Error loading tasks:", error);
             });
     }
 
-    
     function updateTaskList(tasks) {
         // Clear the task list
         taskList.innerHTML = "";
@@ -27,27 +40,32 @@ document.addEventListener("DOMContentLoaded", function () {
         // Add tasks to the list
         tasks.forEach(task => {
             const listItem = document.createElement("li");
-            listItem.appendChild(document.createTextNode(task.text));
-            listItem.style.display("flex-direction: row");
-            var button = document.createElement("button");
-            button.innerHTML = "Delete";
-        
-            listItem.appendChild(button);
-            //listItem.textContent = task.text;
-            taskList.appendChild(listItem);
+            listItem.textContent = task.text;
 
-            // button.innerHTML = "asdasd";
-            // li.appendChild(button);
-            // li.setAttribute("id","element4");
-            // ul.appendChild(li);
-            // alert(li.id);
+            const updateButton = document.createElement("button");
+            updateButton.textContent = "Update";
+            updateButton.classList.add("ml-104", "text-blue-500");
+            updateButton.onclick = function () {
+                showUpdateModal(task.id);
+            };
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.classList.add("ml-2", "text-red-500");
+            deleteButton.onclick = function () {
+                deleteTask(task.id);
+            };
+
+            listItem.appendChild(updateButton);
+            listItem.appendChild(deleteButton);
+
+            taskList.appendChild(listItem);
         });
     }
 
-    addTaskButton.addEventListener("click", function () {
+    function addTask() {
         const taskText = taskInput.value;
         if (taskText) {
-            // Add the new task to the JSON Server
             fetch("http://localhost:3001/tasks", {
                 method: "POST",
                 headers: {
@@ -57,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then(response => response.json())
                 .then(data => {
-                    // Load tasks after adding a new task
                     loadTasks();
                     taskInput.value = "";
                 })
@@ -65,7 +82,60 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.error("Error adding task:", error);
                 });
         }
-    });
+    }
+
+    function showUpdateModal(taskId) {
+        const taskToUpdate = tasks.find(task => task.id === taskId);
+        if (taskToUpdate) {
+            document.getElementById("updateTaskID").value = taskToUpdate.id;
+            document.getElementById("updatedTaskText").value = taskToUpdate.text;
+            updateModal.classList.remove("hidden");
+        }
+    }
+
+    function closeUpdateModal() {
+        updateModal.classList.add("hidden");
+    }
+
+    function deleteTask(taskId) {
+        fetch(`http://localhost:3001/tasks/${taskId}`, {
+            method: "DELETE",
+        })
+            .then(response => response.json())
+            .then(data => {
+                loadTasks();
+            })
+            .catch(error => {
+                console.error("Error deleting task:", error);
+            });
+    }
+
+    function updateTask() {
+        const taskId = document.getElementById("updateTaskID").value;
+        const updatedTaskText = document.getElementById("updatedTaskText").value;
+
+        fetch(`http://localhost:3001/tasks/${taskId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text: updatedTaskText }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                loadTasks();
+                closeUpdateModal();
+            })
+            .catch(error => {
+                console.error("Error updating task:", error);
+            });
+    }
+
+    // Assign the addTask function to the click event of the "Add" button
+    addTaskButton.addEventListener("click", addTask);
+
+    // Assign the updateTask function to the click event of the "Update" button
+    updateTaskButton.addEventListener("click", updateTask);
 
     // Load tasks when the page loads
     loadTasks();
