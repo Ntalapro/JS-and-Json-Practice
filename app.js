@@ -89,8 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify({ text: taskText }),
             })
-                .then(response => response.json())
-                .then(data => {
+                .then(() => {
                     loadTasks();
                     taskInput.value = "";
                 })
@@ -120,8 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`http://localhost:3001/tasks/${taskId}`, {
             method: "DELETE",
         })
-            .then(response => response.json())
-            .then(data => {
+            .then(() => {
                 loadTasks(); //reload tasks after deletion
             })
             .catch(error => {
@@ -141,8 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify({ text: updatedTaskText }),
         })
-            .then(response => response.json())
-            .then(data => {
+            .then(() => {
                 loadTasks();
                 closeUpdateModal();
             })
