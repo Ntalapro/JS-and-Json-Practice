@@ -15,7 +15,7 @@ json-server --watch db.json
 
 # Run JSON server and Change the server PORT
  json-server --watch db.json --port 3001
- // or change the port in the js
+ # or change the port in the js
 ```
 
 
