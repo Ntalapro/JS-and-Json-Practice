@@ -1,6 +1,6 @@
-# A Todo-Practice-App
-An plication i Was using to practice my Vanilla JS, HTML and CSS.
-Clone the Repo and The Follow the requirements.
+# A Simple Todo-App
+An application i just buitl using to practice my Vanilla JS, HTML and CSS.
+Clone the Repo and Then Follow the requirements steps.
 
 ## Requirements
 ```bash
@@ -15,7 +15,10 @@ json-server --watch db.json
 
 # Run JSON server and Change the server PORT
  json-server --watch db.json --port 3001
- # or change the port in the js
+ # OR
+ # Run JSON server
+ json-server --watch db.json
+ # Then change the port in fetch api js to 3000
 ```
 
 
