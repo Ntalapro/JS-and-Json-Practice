@@ -1,5 +1,5 @@
 # A Simple Todo-App
-An application i just buitl using to practice my Vanilla JS, HTML and CSS.
+An application i just built using to practice my Vanilla JS, HTML and CSS.
 Clone the Repo and Then Follow the requirements steps.
 
 ## Requirements
